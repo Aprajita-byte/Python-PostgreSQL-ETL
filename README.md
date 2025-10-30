@@ -1,42 +1,112 @@
-# ETL and data modeling
 
-## Project overview 
-This repository is aimed to build an ETL pipeline using Python that extracts data from local JSON files and loads it into a PostgreSQL database running locally. In addition, data modeling was performed to ensure a smooth data flow through the pipeline. 
+# Python-PostgreSQL ETL Pipeline
 
-### Assignment 
-A startup called Sparkify wants to analyze the data they've been collecting on songs and user activity on their new music streaming app. The analytics team is particularly interested in understanding what songs users are listening to. Currently, they don't have an easy way to query their data, which resides in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app.
+## 📌 Project Overview
+This project implements an **ETL (Extract, Transform, Load)** pipeline using **Python** and **PostgreSQL** to process and analyze JSON log data. It simulates a real-world data engineering workflow — extracting raw event data, transforming it into a relational model, and loading it into a PostgreSQL database for analytical queries.
 
-They would like to have a Postgres database with tables designed to optimize queries on song play analysis. The goal is to create a database schema and ETL pipeline for this analysis. The database and ETL pipeline also should be tested by running queries given by the analytics team from Sparkify.
+The project was inspired by a data warehouse use case similar to what streaming platforms like Spotify or Netflix would use to analyze user activity.
 
-## High-level architecture of the project
-![Project architecture](img/Sparkify_architecture.jpg)
+---
 
-## Logical Data Model for the project
-![Data Model for ETL Sparkify project](/img/DataModelSparkify.png)
+## 🚀 Key Features
+- **Automated ETL Pipeline** to extract JSON log data.
+- **Schema Design & Table Creation** for a relational database model.
+- **Data Transformation** using Python and SQL.
+- **Efficient Data Loading** into PostgreSQL tables.
+- **Validation & Testing** through Jupyter notebooks.
 
-## Overview of the files in the repository
-- 'create_tables.py': drops and creates tables.
-- 'etl.ipynb' Jupyter notebook file: reads and processes a single file from both songs and logs files and loads that data into the tables. Was used as a pre step before running 'etl.py' file. 
-- 'etl.py' file: reads and processes all files from songs and logs files and loads the data into the tables.
-- 'sql_queries.py' file: contains all SQL queries, and is imported into the 'create_tables.py', 'etl.ipynb' and 'etl.py' files.
-- 'test.ipynb' Jupyter file: displays the first few rows of each table to check the database.
-- 'data' folder: contains logs and songs files (data sources for the current project).
-- 'img' folder: contains images for the current file.
-- 'requirements.txt' file: contains a list of dependencies for the project.
-- 'database.cfg.template' file: contains default configuration of the databases that are used. 
+---
 
-## Running the project 
+## 🛠️ Tech Stack
+- **Programming Language:** Python 3.x  
+- **Database:** PostgreSQL  
+- **Libraries:** psycopg2, pandas, json, os, glob  
+- **Tools:** Jupyter Notebook, SQL, Git
 
-### Pre-requisites:
-- Create a new virtual environment for the project (optional but highly recommended) 
-- Run 'requirements.txt' file to install dependencies for the project (pip install -r requirements.txt)
+---
 
-### How to run the project
-1. Run 'create_tables.py' file. It will create output tables.
-2. Run 'etl.py' to process all files from 'data' folder. 
-3. If you want to see the tests, run 'test.ipynb' file.
+## 🧩 Project Structure
+```
+Python-PostgreSQL ETL/
+│
+├── create_tables.py          # Script to define and create PostgreSQL tables
+├── etl.py                    # Main ETL script for extracting, transforming, and loading data
+├── sql_queries.py            # SQL queries for table creation and data insertion
+├── etl.ipynb                 # ETL pipeline demonstration notebook
+├── test.ipynb                # Validation and testing notebook
+├── data/
+│   └── log_data/             # Folder containing JSON input files
+├── database.cfg.template     # Template for database configuration (user, password, host, dbname)
+├── requirements.txt          # Python dependencies
+└── .gitignore
+```
 
-## Output of the project
-Current input songs data is a subset of the data from [Million Song Dataset](http://millionsongdataset.com/). 
-Data contains only 1 row that matches requirements. 
-![Sparkify Data Modeling project output](/img/Sparkify-output.jpg)
+---
+
+## 🧠 Data Model
+The project uses a **Star Schema** design with the following tables:
+
+**Fact Table**
+- `songplays` – records in event data associated with song plays.
+
+**Dimension Tables**
+- `users` – user information.  
+- `songs` – song details.  
+- `artists` – artist information.  
+- `time` – timestamps of records broken down into time units.
+
+This schema optimizes query performance for analytical workloads.
+
+---
+
+## ⚙️ ETL Process
+1. **Extract** JSON files from the `data/log_data/` directory.  
+2. **Transform** data — clean, structure, and map relationships (user, song, artist).  
+3. **Load** the transformed data into PostgreSQL tables using `psycopg2`.  
+
+You can visualize and test the pipeline through `etl.ipynb` and `test.ipynb`.
+
+---
+
+## 💻 Setup Instructions
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/Python-PostgreSQL-ETL.git
+   cd Python-PostgreSQL-ETL
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Configure database:**
+   - Copy `database.cfg.template` → `database.cfg`
+   - Update your PostgreSQL credentials inside the file.
+
+4. **Run scripts:**
+   ```bash
+   python create_tables.py
+   python etl.py
+   ```
+
+---
+
+## 🧾 Example Output
+After successful execution, PostgreSQL will contain structured tables populated with data from JSON files. You can query them, for example:
+```sql
+SELECT * FROM songplays LIMIT 5;
+```
+
+---
+
+## 🧭 Future Enhancements
+- Integrate AWS S3 for data storage.  
+- Automate with Apache Airflow.  
+- Add logging and monitoring features.  
+- Implement data validation before loading.
+
+---
+
+## 🏁 Conclusion
+This project demonstrates practical data engineering skills including schema design, ETL automation, and PostgreSQL integration. It forms a strong foundation for building scalable analytics pipelines in real-world environments.
